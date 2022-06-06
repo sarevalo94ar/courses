@@ -1,0 +1,9 @@
+python=crea un script para programar en la consola
+iphython= abre python interecativo
+
+run filename.py
+
+Termina el programa en Python con el método quit()
+Termina el programa Python con el método exit()
+Termina el programa Python con el método sys.exit()
+Termina el programa Python con el método os.exit()

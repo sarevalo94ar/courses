@@ -1,0 +1,209 @@
+<html>
+	<head>
+		<title>Bored Page By Tatan</title>
+		<meta name="description" content="This is a description">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			*{
+				box-sizing: border-box;
+			}
+			body{
+				padding: 0;
+				margin: 0;	
+			}
+			h1, h2, h3, h4, p, a{
+				font-family: Arial;
+			}
+			header{
+				width: 100%;
+				background-color: #fff;
+				box-shadow: 0 0 0.5em gray;
+			}
+			.content{
+				width: 100%;
+				padding: 16px 8px;
+				max-width: 1200px;
+				margin: 0 auto;
+			}
+			.head-title{
+				margin: 0;
+				font-size: 32px;
+			}
+			.btn{	
+				padding: .25em 1em;
+				border: 0;
+				border-radius: 0;
+				font-size: 18px;
+				cursor: pointer;
+				transition: all .1s ease-in;
+			}
+			.btn-black{
+				background-color: #000;
+				color: #fff;
+			}
+			.btn-black:hover{
+				background-color: gray;
+			}
+			#screen{
+				position: relative;
+				width:100%;
+				height: 80vh;
+				margin: 1em 0;
+				overflow: hidden;
+				background-color: #000;
+			}
+			#ball{	
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background-color: #fff;
+				transition: all .5s ease;
+				z-index: 1;
+				overflow: hidden;
+			}
+			.ball{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background-color: gray;
+				transition: all .5s ease;
+				
+			}
+			.unball{
+				width: 0;
+				height: 0;
+				margin: 25px 0 0 25px;
+				opacity: 0;
+			}
+			#current-pet{
+				width: 100%;
+			}
+			#pet-selector{
+				display: flex;
+				flex-wrap: wrap;
+			}
+			.pet{
+				width: 50px;
+				height: 50px;
+				margin: 0 .25em .25em 0;
+				border: 2px solid lightgray;
+				background-color: #fff;
+				border-radius: 50%;
+				overflow: hidden;
+				cursor: pointer;
+			}
+			.pet.active{
+				border: 2px solid #000;
+			}
+			.pet>img{
+				width: 100%;
+			}
+		</style>		
+	</head>
+	<body>
+		<header>
+			<div class="content">
+				<p class="head-title">
+					Bored
+				</p>
+			</div>
+		</header>
+		<section>
+			<div class="content">
+				<h1>Are you bored?</h1>
+				<p>Choose a pet here:</p>
+				<div id="pet-selector">
+				</div>
+				<p>You can fun here just click on this button.</p>
+				<button class="btn btn-black" id="notify-fast">Start here</button>
+				<button class="btn btn-black" id="reset-screen">Clear balls</button>
+				<div id="screen">
+					<div id="ball">
+						<img id="current-pet" src="./assets/cat.jpg" alt="Cat">
+					</div>
+				</div>
+			</div>
+		</section>	
+		<script type="text/javascript">
+			let notifyButton = document.getElementById("notify-fast");
+			let clearButton = document.getElementById("reset-screen")
+			let screen = document.getElementById("screen");
+			let ball = document.getElementById("ball");
+			let currentPet = document.getElementById("current-pet")
+			let petSelector = document.getElementById("pet-selector");
+			let pets = [
+				{name:"cat",image:"./assets/cat.jpg"},
+				{name:"cat-b",image:"./assets/cat-b.jpg"},
+				{name:"cat-c",image:"./assets/cat-c.jpg"},
+				{name:"dog",image:"./assets/dog.jpg"},
+				{name:"dog-b",image:"./assets/dog-b.jpg"},
+				{name:"dog-c",image:"./assets/dog-c.jpg"},
+			]
+			function renderPetList(){
+				for(let i=0;i<pets.length;i++){
+					let newPet = document.createElement("button");
+					newPet.classList.add("pet");
+					petSelector.appendChild(newPet);
+					let petPreview = document.createElement("img");
+					petPreview.srcset = pets[i].image;
+					newPet.appendChild(petPreview);
+					newPet.addEventListener("click",function(){
+						currentPet.srcset = pets[i].image
+						console.log("Selecciono la mascota: "+pets[i].name);
+						for(let _i=0;_i<petSelector.children.length;_i++){
+							petSelector.children[_i].classList.remove("active")
+						}
+						newPet.classList.add("active")
+					})
+					if(i===0){
+						newPet.classList.add("active")
+					}
+				}
+			}
+
+			function clearBalls(){
+				for(let i=screen.children.length-1; i>=0;--i){
+					if(screen.children[i].id !== "ball"){
+						screen.children[i].classList.add("unball")
+						setTimeout(function(){
+							screen.children[i].remove()	
+						},1000)
+					}
+				}
+			}
+			function createBall(_top,_left){
+				let newBall = document.createElement("div")
+				newBall.classList.add("ball")
+				newBall.style.setProperty("top",_top+"%");
+				newBall.style.setProperty("left",_left+"%");
+				screen.appendChild(newBall)
+			}
+
+			function setPoint(){
+				let topPoint = Math.floor(Math.random()*100);
+				let leftPoint = Math.floor(Math.random()*100);
+				ball.style.setProperty("top",topPoint+"%");
+				ball.style.setProperty("left",leftPoint+"%");
+				setTimeout(function(){
+					createBall(topPoint,leftPoint);
+				},500)
+			}
+
+			notifyButton.addEventListener("click",function(){
+				setPoint()
+			})
+
+			clearButton.addEventListener("click",function(){
+				clearBalls()
+			})
+
+			renderPetList();
+		</script>
+	</body>
+</html>

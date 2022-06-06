@@ -1,0 +1,3 @@
+ls  : me muestra la lista de archivos o carpetas en la ubicacion actual 
+pwd :directorio de trabajo actual 
+cd : cambia  de directorio
